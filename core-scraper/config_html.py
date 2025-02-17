@@ -1,0 +1,47 @@
+cookies_html = {
+    "EMAGVISITOR": "a%3A1%3A%7Bs%3A7%3A%22user_id%22%3Bi%3A2504502576924745290%3B%7D",
+    "ltuid": "2504481776648939291",
+    "EMAGUUID": "1739572977-52765123027-79764.407",
+    "site_version_11": "not_mobile",
+    "eab1427": "a",
+    "eab1433": "b",
+    "sr": "2563x1312",
+    "vp": "2560x1311",
+    "loginTooltipShown": "1",
+    "delivery_locality_id": "4956",
+    "token1": "%22-a15984cf-7069-46f0-acf1-5ce5a437ef5d-67b083ab83bc89.64346917%22",
+    "cart_summary": "%7B%22t%22%3A1%2C%22b%22%3A0%2C%22p%22%3A0%2C%22bfc%22%3A0%2C%22line%22%3A%5B%5D%7D",
+    "customer_delivery_info": '{"g":0,"lid":"4956","dp":"91604006-f066-46a8-90ca-6efa37eeba6f"}',
+    "listingResetView": "1",
+    "EMAGROSESSID": "f8d34205898265773f9fea09a406ad4a",
+    "AID": "a6b351f70a11aae73c9a53da587e5d6b2bc2c71a7fe0fb5a295a31663d31ab4a",
+    "_pdr_view_id": "1739713161-27941.758-16162195164",
+    "_pdr_internal": "GA1.2.5982519181.1739713226",
+}
+
+headers_html = {
+    "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8",
+    "accept-language": "en-US,en;q=0.8",
+    "cache-control": "max-age=0",
+    # 'cookie': 'EMAGVISITOR=a%3A1%3A%7Bs%3A7%3A%22user_id%22%3Bi%3A2504502576924745290%3B%7D; ltuid=2504481776648939291; EMAGUUID=1739572977-52765123027-79764.407; site_version_11=not_mobile; eab1427=a; eab1433=b; sr=2563x1312; vp=2560x1311; loginTooltipShown=1; delivery_locality_id=4956; token1=%22-a15984cf-7069-46f0-acf1-5ce5a437ef5d-67b083ab83bc89.64346917%22; cart_summary=%7B%22t%22%3A1%2C%22b%22%3A0%2C%22p%22%3A0%2C%22bfc%22%3A0%2C%22line%22%3A%5B%5D%7D; customer_delivery_info={"g":0,"lid":"4956","dp":"91604006-f066-46a8-90ca-6efa37eeba6f"}; listingResetView=1; EMAGROSESSID=f8d34205898265773f9fea09a406ad4a; AID=a6b351f70a11aae73c9a53da587e5d6b2bc2c71a7fe0fb5a295a31663d31ab4a; _pdr_view_id=1739713161-27941.758-16162195164; _pdr_internal=GA1.2.5982519181.1739713226',
+    "dnt": "1",
+    "priority": "u=0, i",
+    "referer": "https://www.emag.ro/nike-pantofi-sport-mid-high-din-piele-court-royale-2-alb-7-5-ct1725-100-7-5/pd/D40VN2MBM/?ref=flashdeals_1_1&provider=flashdeals&recid=smart-deals-25-ianuarie-23-februarie&scenario_ID=67",
+    "sec-ch-ua": '"Brave";v="131", "Chromium";v="131", "Not_A Brand";v="24"',
+    "sec-ch-ua-mobile": "?0",
+    "sec-ch-ua-platform": '"Windows"',
+    "sec-fetch-dest": "document",
+    "sec-fetch-mode": "navigate",
+    "sec-fetch-site": "same-origin",
+    "sec-fetch-user": "?1",
+    "sec-gpc": "1",
+    "upgrade-insecure-requests": "1",
+    "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36",
+}
+
+params_html = {
+    "provider": "rec",
+    "recid": "rec_102_a07cab02a4c2af65a9cff592423947eb4bbf02da78c8b0c7350d0c7a51fcb45a_1739622974",
+    "ref": "embedding_similar_model_1_4",
+    "scenario_ID": "102",
+}
