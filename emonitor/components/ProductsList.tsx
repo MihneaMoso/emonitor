@@ -5,13 +5,13 @@ import { ListElement } from './ListElement';
 export interface Product {
   id: string;
   url: string;
-  currentPrice: number;
+  price: number;
   prp: number;
   fdp: number;
   discount: number;
   currency: string;
-  imageUrl: string;
   title: string;
+  imageUrl: string;
 }
 
 export function ProductsList({ products }: { products: Product[] }) {
@@ -22,13 +22,13 @@ export function ProductsList({ products }: { products: Product[] }) {
         renderItem={({ item }) => (
           <ListElement
             productUrl={item.url}
-            currentPrice={item.currentPrice}
+            price={item.price}
             prp={item.prp}
             fdp={item.fdp}
             discount={item.discount}
             currency={item.currency}
-            imageUrl={item.imageUrl}
             title={item.title}
+            imageUrl={item.imageUrl}
           />
         )}
         keyExtractor={(item) => item.id}

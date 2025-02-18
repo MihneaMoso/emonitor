@@ -1,30 +1,33 @@
-import { StyleSheet, Image } from 'react-native';
+import { StyleSheet, Image, Linking } from 'react-native';
 import { ThemedView } from '@/components/ThemedView';
 import { ThemedText } from '@/components/ThemedText';
+import { Pressable } from 'react-native';
 
 interface ListElementProps {
   productUrl: string;
-  currentPrice: number;
+  price: number;
   prp: number;
   fdp: number;
   discount: number;
   currency: string;
-  imageUrl: string;
   title: string;
+  imageUrl: string;
 }
 
-export function ListElement({ productUrl, currentPrice,prp,fdp,discount,currency, imageUrl, title }: ListElementProps) {
+export function ListElement({ productUrl, price, prp, fdp, discount, currency, imageUrl, title }: ListElementProps) {
   return (
     <ThemedView style={styles.container}>
       <Image source={{ uri: imageUrl }} style={styles.productImage} />
       <ThemedView style={styles.infoContainer}>
         <ThemedText type="subtitle">{title}</ThemedText>
-        <ThemedText type="link">{productUrl}</ThemedText>
-        <ThemedText>Current Price: ${currentPrice}</ThemedText>
-        <ThemedText>Discount: ${discount}</ThemedText>
-        <ThemedText>PRP(recommended sales price): ${prp}</ThemedText>
-        <ThemedText>Fastest Delivery Price: ${fdp}</ThemedText>
-        <ThemedText>Currency: ${currency}</ThemedText>
+        <Pressable onPress={() => Linking.openURL(productUrl)}>
+          <ThemedText type="link" style={styles.linkText}>{productUrl}</ThemedText>
+        </Pressable>
+        <ThemedText>Current Price: <ThemedText style={styles.price}>{price}</ThemedText></ThemedText>
+        <ThemedText>Discount: {discount}</ThemedText>
+        <ThemedText>PRP(recommended sales price): {prp}</ThemedText>
+        <ThemedText>Fastest Delivery Price: {fdp}</ThemedText>
+        <ThemedText>Currency: {currency}</ThemedText>
       </ThemedView>
     </ThemedView>
   );
@@ -48,5 +51,13 @@ const styles = StyleSheet.create({
   infoContainer: {
     marginLeft: 16,
     flex: 1,
+  },
+  linkText: {
+    textDecorationLine: 'underline',
+    color: '#0066CC'
+  },
+  price: {
+    fontWeight: 'bold',
+    fontSize: 16,
   }
 });
