@@ -12,10 +12,10 @@
  - Python with FastAPI for running the web server
  - Curl_cffi and selectolax for the web scraper
  - Clerk.com for the authentication
+ - Render for deployment
 
 #### The language we chose is English because it is the most used and well-understood language on the internet.
 
 ### Links:
- - Pitch: 
- - Demo:
- 
+ - Pitch: https://drive.google.com/file/d/1s4wsZc_nF2YJLirm5srSeM3GEbXEsBzb/view?usp=sharing
+ - Demo: 
