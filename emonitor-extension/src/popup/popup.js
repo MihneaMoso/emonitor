@@ -84,7 +84,7 @@ class ProductList {
 }
 
 // Initialize the product list when popup opens
-new ProductList();
+// new ProductList();
 
 
 // Add this to the existing popup.js
