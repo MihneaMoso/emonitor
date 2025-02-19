@@ -1,0 +1,146 @@
+body {
+    width: 400px;
+    margin: 0;
+    padding: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+}
+
+.header {
+    background-color: #1a1a1a;
+    color: white;
+    padding: 16px;
+    text-align: center;
+}
+
+.header h1 {
+    margin: 0;
+    font-size: 20px;
+}
+
+.main-content {
+    padding: 16px;
+}
+
+#productList {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.product-card {
+    display: flex;
+    padding: 12px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.product-card:hover {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.product-image {
+    width: 80px;
+    height: 80px;
+    margin-right: 12px;
+}
+
+.product-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+.product-details {
+    flex: 1;
+}
+
+.product-title {
+    margin: 0 0 8px 0;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.price-info {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 4px;
+}
+
+.current-price {
+    font-weight: bold;
+    color: #1a1a1a;
+}
+
+.discount {
+    color: #00a67e;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.price-metrics {
+    display: flex;
+    gap: 12px;
+    font-size: 12px;
+    color: #666;
+}
+
+/* Add to existing styles */
+.product-form {
+    margin-bottom: 16px;
+    padding: 16px;
+    background: #f5f5f5;
+    border-radius: 8px;
+}
+
+.interval-picker {
+    width: 150px;
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+}
+
+.products-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.product-item {
+    display: flex;
+    padding: 16px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.product-image {
+    width: 80px;
+    height: 80px;
+    border-radius: 4px;
+    object-fit: cover;
+}
+
+.product-info {
+    margin-left: 16px;
+    flex: 1;
+}
+
+.product-title {
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.product-link {
+    color: #0066CC;
+    text-decoration: underline;
+    margin-bottom: 8px;
+}
+
+.product-price {
+    font-weight: bold;
+    font-size: 16px;
+}

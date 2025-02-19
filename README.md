@@ -1,2 +1,21 @@
-# emonitor
-An expo app that tracks prices of products from emag.ro
+# EMonitor
+### Team name: EMonitor
+### Team members:
+ - Mosorescu Mihnea (Student at "Tudor Vianu" National Computer Science High School)
+ - Stefan Panait (Student at "Mihai Eminescu" National High School)
+
+### Technologies we used:
+#### For the frontend:
+ - Expo with React for the mobile apps
+ - Plain Javascript with PicoCSS for the web extension
+#### For the backend:
+ - Python with FastAPI for running the web server
+ - Curl_cffi and selectolax for the web scraper
+ - Clerk.com for the authentication
+
+#### The language we chose is English because it is the most used and well-understood language on the internet.
+
+### Links:
+ - Pitch: 
+ - Demo:
+ 

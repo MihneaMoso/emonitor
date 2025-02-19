@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>eMonitor</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="app">
+        <header class="header">
+            <h1>eMonitor</h1>
+            <button id="addProduct" class="add-button">+ Add Product</button>
+        </header>
+        <main class="main-content">
+            <div id="productForm" class="product-form">
+                <select id="checkInterval" class="interval-picker">
+                    <option value="3600">1 hour</option>
+                    <option value="7200">2 hours</option>
+                    <option value="14400">4 hours</option>
+                </select>
+            </div>
+            <div id="productList" class="products-list"></div>
+        </main>
+    </div>
+    <script src="popup.js"></script>
+</body>
+</html>

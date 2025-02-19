@@ -1,0 +1,29 @@
+{
+    "manifest_version": 3,
+    "name": "Emonitor",
+    "version": "0.1.0",
+    "description": "Monitor product prices and get notifications",
+    "permissions": [
+      "storage",
+      "activeTab",
+      "notifications"
+    ],
+    "action": {
+      "default_popup": "src/popup/index.html",
+      "default_icon": {
+        "16": "icons/icon16.png",
+        "48": "icons/icon48.png",
+        "128": "icons/icon128.png"
+      }
+    },
+    "background": {
+      "service_worker": "src/background/background.js"
+    },
+    "content_scripts": [
+      {
+        "matches": ["<all_urls>"],
+        "js": ["src/content/content.js"]
+      }
+    ]
+  }
+  

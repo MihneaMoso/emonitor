@@ -14,7 +14,18 @@ export interface Product {
   imageUrl: string;
 }
 
-export function ProductsList({ products }: { products: Product[] }) {
+interface ProductsListProps {
+  products: Product[];
+  setProducts: (products: Product[]) => void;
+  saveProducts: (products: Product[]) => void;
+}
+
+export function ProductsList({ products, setProducts, saveProducts }: ProductsListProps) {
+  const handleDelete = (productId: string) => {
+    const updatedProducts = products.filter(p => p.id !== productId);
+    setProducts(updatedProducts);
+    saveProducts(updatedProducts);
+  };
   return (
     <ThemedView style={styles.container}>
       <FlatList
@@ -29,6 +40,7 @@ export function ProductsList({ products }: { products: Product[] }) {
             currency={item.currency}
             title={item.title}
             imageUrl={item.imageUrl}
+            onDelete={() => {handleDelete(item.id)}}
           />
         )}
         keyExtractor={(item) => item.id}

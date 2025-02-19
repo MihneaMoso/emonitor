@@ -13,6 +13,8 @@ import { supportedSites } from '../config/supportedSites';
 import { devHost } from '../config/hosts';
 import Storage from 'react-native-storage';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { registerBackgroundTask } from '@/utils/backgroundTasks';
+
 
 export default function addProductScreen() {
   const colorScheme = useColorScheme();
@@ -41,22 +43,6 @@ export default function addProductScreen() {
     }
   };
 
-  const addProduct = (newProduct: Product) => {
-    if (newProduct.id === "error") {
-      return;
-    }
-    if (products.some(product => product.id === newProduct.id)) {
-      setError('This product is already in your list');
-      return;
-    }
-    const updatedProducts = [...products, newProduct];
-    setProducts([...products, newProduct]);
-    saveProducts(updatedProducts);
-  }
-
-  useEffect(() => {
-    loadSavedProducts();
-  }, []);
   const getProductInfo = async (link: string): Promise<Product> => {
     let url_str = `${devHost}/product/`;
 
@@ -70,7 +56,7 @@ export default function addProductScreen() {
     // product_str will be the rest of the URL after https://www.emag.ro/ or https://www.altex.ro/, not including the domain or url parameters
     const product_str = new URL(link).pathname;
     url_str += product_str;
-    console.log(url_str);
+    //console.log(url_str);
     const response = await fetch(url_str, {
       method: 'GET',
       headers: {
@@ -94,7 +80,7 @@ export default function addProductScreen() {
     }
     // convert the received json to a Product object
     const data: Product = await response.json();
-    console.log(data);
+    //console.log(data);
     const product: Product = {
       id: data.id || '',
       url: link,
@@ -106,9 +92,27 @@ export default function addProductScreen() {
       title: data.title || '',
       imageUrl: data.imageUrl || '',
     };
-
     return product;
   }
+
+  const addProduct = async (newProduct: Product) => {
+    if (newProduct.id === "error") {
+      return;
+    }
+    if (products.some(product => product.id === newProduct.id)) {
+      setError('This product is already in your list');
+      return;
+    }
+    const updatedProducts = [...products, newProduct];
+    setProducts([...products, newProduct]);
+    saveProducts(updatedProducts);
+
+    await registerBackgroundTask(3600);
+  }
+
+  useEffect(() => {
+    loadSavedProducts();
+  }, []);
 
   const handleSubmit = async () => {
     if (!error && link) {
@@ -190,7 +194,11 @@ export default function addProductScreen() {
         >
           <ThemedText style={styles.buttonText}>Add</ThemedText>
         </Pressable>
-        <ProductsList products={products}></ProductsList>
+        <ProductsList
+          products={products}
+          setProducts={setProducts}
+          saveProducts={saveProducts}
+        />
       </ThemedView>
     </ParallaxScrollView>
   );
