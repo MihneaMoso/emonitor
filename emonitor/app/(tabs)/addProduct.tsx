@@ -10,7 +10,7 @@ import { ProductsList } from '@/components/ProductsList';
 import { Product } from "@/components/ProductsList";
 import { supportedSites } from '../config/supportedSites';
 // import { DEV_URL } from '@env';
-import { devHost } from '../config/hosts';
+import { devHost, prodHost } from '../config/hosts';
 import Storage from 'react-native-storage';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { registerBackgroundTask } from '@/utils/backgroundTasks';
@@ -43,8 +43,13 @@ export default function addProductScreen() {
     }
   };
 
+  const clearAllProducts = async () => {
+    await AsyncStorage.removeItem('savedProducts');
+    setProducts([]);
+  };
+
   const getProductInfo = async (link: string): Promise<Product> => {
-    let url_str = `${devHost}/product/`;
+    let url_str = `${prodHost}/product/`;
 
     if (link.includes("emag.ro")) {
       url_str += "emag";
@@ -107,7 +112,7 @@ export default function addProductScreen() {
     setProducts([...products, newProduct]);
     saveProducts(updatedProducts);
 
-    await registerBackgroundTask(3600);
+    await registerBackgroundTask(60);
   }
 
   useEffect(() => {
@@ -185,21 +190,36 @@ export default function addProductScreen() {
           <ThemedText style={styles.errorText}>{error}</ThemedText>
         ) : null}
         <Pressable
-          style={[styles.submitButton,
-          {
-            backgroundColor: colorScheme === 'dark' ? '#3D8D7A' : '#B3D8A8',
-          }
-          ]}
+          style={
+            [styles.submitButton,
+            {
+              backgroundColor: colorScheme === 'dark' ? '#3D8D7A' : '#B3D8A8',
+            }
+            ]}
+          android_ripple={{ color: 'rgba(255, 255, 255, 0.3)' }}
           onPress={handleSubmit}
         >
           <ThemedText style={styles.buttonText}>Add</ThemedText>
         </Pressable>
+        <Pressable
+          style={[styles.clearButton, {
+            backgroundColor: colorScheme === 'dark' ? '#FF6B6B' : '#FF4444',
+          }]
+          }
+          android_ripple={{ color: 'rgba(255, 255, 255, 0.3)' }}
+          onPress={clearAllProducts}
+        >
+          <ThemedText style={styles.buttonText}>Clear All Products</ThemedText>
+        </Pressable>
+      </ThemedView>
+      <ThemedView style={styles.listContainer}>
         <ProductsList
           products={products}
           setProducts={setProducts}
           saveProducts={saveProducts}
         />
       </ThemedView>
+
     </ParallaxScrollView>
   );
 }
@@ -226,7 +246,7 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   formContainer: {
-    width: "50%",
+    width: Platform.OS === 'web' ? '50%' : '70%',
     padding: 16,
     alignSelf: 'center',
   },
@@ -237,6 +257,7 @@ const styles = StyleSheet.create({
     padding: 12,
     marginBottom: 8,
     width: '100%',
+    height: 48,
   },
   errorText: {
     color: 'red',
@@ -255,5 +276,19 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginTop: 10,
     marginBottom: -10
+  },
+  listContainer: {
+    width: Platform.OS === 'web' ? '50%' : '100%',
+    padding: 16,
+    alignSelf: 'center',
+    flex: 1,
+  },
+  clearButton: {
+    padding: 12,
+    borderRadius: 8,
+    marginTop: 16,
+    alignItems: 'center',
+    width: '90%',
+    alignSelf: 'center'
   }
 });

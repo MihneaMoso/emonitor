@@ -104,8 +104,11 @@ const styles = StyleSheet.create({
     },
     signInText: {
         fontSize: 18,
-        textAlign: 'center',
         marginTop: 16,
+        width: '90%',
+        flexWrap: 'wrap',
+        paddingHorizontal: 10,
+        textAlign: 'center',
     },
     signOutButton: {
         marginTop: 20,
@@ -118,5 +121,7 @@ const styles = StyleSheet.create({
         padding: 10,
         backgroundColor: '#4CAF50',
         borderRadius: 8,
+        minWidth: 100,
+        alignItems: 'center',
     }
 })

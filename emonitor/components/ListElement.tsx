@@ -8,12 +8,6 @@ import { Picker } from '@react-native-picker/picker';
 import { useState } from 'react';
 import { Ionicons } from '@expo/vector-icons';
 
-const intervals = [
-  { label: '1 hour', value: 3600 },
-  { label: '2 hours', value: 7200 },
-  { label: '4 hours', value: 14400 },
-];
-
 interface ListElementProps {
   productUrl: string;
   price: number;
@@ -38,20 +32,32 @@ export function ListElement({ productUrl, price, prp, fdp, discount, currency, i
     <ThemedView style={styles.container}>
       <Image source={{ uri: imageUrl }} style={styles.productImage} />
       <ThemedView style={styles.infoContainer}>
-        <ThemedText type="subtitle">{title}</ThemedText>
-        <Pressable onPress={() => Linking.openURL(productUrl)}>
-          <ThemedText type="link" style={styles.linkText}>{productUrl}</ThemedText>
+        <ThemedText
+          type="subtitle"
+          numberOfLines={1}
+          ellipsizeMode='tail'
+        >
+          {title}</ThemedText>
+        <Pressable
+          onPress={() => Linking.openURL(productUrl)}>
+          <ThemedText 
+          type="link" 
+          style={styles.linkText}
+          ellipsizeMode='tail'
+          numberOfLines={1}
+          >{productUrl}</ThemedText>
         </Pressable>
-        <ThemedText>Current Price: <ThemedText style={styles.price}>{price}</ThemedText></ThemedText>
-        <ThemedText>Discount: {discount}</ThemedText>
-        <ThemedText>PRP(recommended sales price): {prp}</ThemedText>
-        <ThemedText>Fastest Delivery Price: {fdp}</ThemedText>
-        <ThemedText>Currency: {currency}</ThemedText>
+        <ThemedText style={styles.productInfo}>Current Price: <ThemedText style={styles.price}>{price}</ThemedText></ThemedText>
+        <ThemedText style={styles.productInfo}>Discount: {discount}</ThemedText>
+        <ThemedText style={styles.productInfo}>PRP: {prp}</ThemedText>
+        <ThemedText style={styles.productInfo}>Fastest Delivery Price: {fdp}</ThemedText>
+        <ThemedText style={styles.productInfo}>Currency: {currency}</ThemedText>
         <Picker
           selectedValue={checkInterval}
           onValueChange={handleIntervalChange}
           style={styles.picker}
         >
+          <Picker.Item label="1 minute" value={60} />
           <Picker.Item label="1 hour" value={3600} />
           <Picker.Item label="2 hours" value={7200} />
           <Picker.Item label="4 hours" value={14400} />
@@ -70,38 +76,51 @@ export function ListElement({ productUrl, price, prp, fdp, discount, currency, i
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
-    padding: 16,
-    marginVertical: 8,
+    padding: 12,
+    marginVertical: 6,
+    marginHorizontal: 10,
     borderRadius: 8,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
   },
+  productInfo: {
+    marginVertical: 2,
+    flexWrap: 'wrap'
+  },
   productImage: {
-    width: 80,
+    width: 60,
     height: 80,
     borderRadius: 4,
   },
   infoContainer: {
-    marginLeft: 16,
+    marginLeft: 12,
     flex: 1,
+    flexWrap: 'wrap',
+    paddingRight: 40,
   },
   linkText: {
     textDecorationLine: 'underline',
-    color: '#0066CC'
+    color: '#0066CC',
+    flexWrap: 'wrap',
+    width: '100%',
   },
   price: {
     fontWeight: 'bold',
     fontSize: 16,
+    marginVertical: 4,
   },
   picker: {
-    width: 150,
-    marginTop: 10
+    fontWeight: 'bold',
+    fontSize: 16,
+    marginVertical: 4,
   },
   deleteButton: {
     position: 'absolute',
     top: 10,
     right: 10,
+    zIndex: 1,
+    backgroundColor: 'transparent',
     padding: 8,
   }
 });

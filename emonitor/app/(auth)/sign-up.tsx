@@ -14,6 +14,7 @@ export default function SignUpScreen() {
 
     const [emailAddress, setEmailAddress] = React.useState('');
     const [password, setPassword] = React.useState('');
+    const [error, setError] = React.useState('');
     const [pendingVerification, setPendingVerification] = React.useState(false);
     const [code, setCode] = React.useState('');
     const colorScheme = useColorScheme();
@@ -37,10 +38,12 @@ export default function SignUpScreen() {
             // Set 'pendingVerification' to true to display second form
             // and capture OTP code
             setPendingVerification(true);
-        } catch (err) {
+            setError('');
+        } catch (err: any) {
             // See https://clerk.com/docs/custom-flows/error-handling
             // for more info on error handling
-            console.error(JSON.stringify(err, null, 2));
+            //console.error(JSON.stringify(err, null, 2));
+            setError(err.errors[0].message || 'Failed to sign up');
         }
     };
 
@@ -96,14 +99,19 @@ export default function SignUpScreen() {
         <ThemedView style={styles.container}>
             <ThemedText style={styles.title}>Create Account</ThemedText>
 
+            {error ? (
+                <ThemedText style={styles.errorText}>{error}</ThemedText>
+            ) : null}
+
             <TextInput
                 style={[styles.input, {
                     color: colorScheme === 'dark' ? '#FFFFFF' : '#000000',
                     backgroundColor: colorScheme === 'dark' ? '#353636' : '#FFFFFF'
                 }]}
+                hitSlop={{ top: 32, bottom: 32, left: 32, right: 32 }}
                 autoCapitalize="none"
                 value={emailAddress}
-                placeholder="Email"
+                placeholder="Enter Email"
                 placeholderTextColor={colorScheme === 'dark' ? '#808080' : '#666666'}
                 onChangeText={setEmailAddress}
             />
@@ -113,6 +121,7 @@ export default function SignUpScreen() {
                     color: colorScheme === 'dark' ? '#FFFFFF' : '#000000',
                     backgroundColor: colorScheme === 'dark' ? '#353636' : '#FFFFFF'
                 }]}
+                hitSlop={{ top: 32, bottom: 32, left: 32, right: 32 }}
                 value={password}
                 placeholder="Password"
                 placeholderTextColor={colorScheme === 'dark' ? '#808080' : '#666666'}
@@ -120,7 +129,13 @@ export default function SignUpScreen() {
                 onChangeText={setPassword}
             />
 
-            <Pressable style={styles.signUpButton} onPress={onSignUpPress}>
+            <Pressable
+                style={({pressed}) => [
+                    styles.signUpButton,
+                    pressed && styles.buttonPressed
+                ]}
+                android_ripple={{ color: 'rgba(255, 255, 255, 0.3)' }}
+                onPress={onSignUpPress}>
                 <ThemedText style={styles.buttonText}>Sign Up</ThemedText>
             </Pressable>
 
@@ -176,5 +191,14 @@ const styles = StyleSheet.create({
     linkText: {
         color: '#4CAF50',
         fontWeight: 'bold',
+    },
+    errorText: {
+        color: '#FF3B30',
+        marginBottom: 10,
+        textAlign: 'center'
+    },
+    buttonPressed: {
+        opacity: 0.8,
+        transform: [{ scale: 0.98 }]
     }
 });

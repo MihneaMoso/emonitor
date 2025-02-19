@@ -9,6 +9,7 @@ import { useColorScheme } from '@/hooks/useColorScheme';
 import { ClerkProvider, ClerkLoaded } from '@clerk/clerk-expo'
 import { Slot } from 'expo-router'
 import { tokenCache } from '@/cache'
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -36,6 +37,7 @@ export default function RootLayout() {
   }
 
   return (
+    <GestureHandlerRootView style={{ flex: 1 }}>
     <ClerkProvider publishableKey={publishableKey} tokenCache={tokenCache}>
       <ClerkLoaded>
         <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
@@ -47,5 +49,6 @@ export default function RootLayout() {
         </ThemeProvider>
       </ClerkLoaded>
     </ClerkProvider>
+    </GestureHandlerRootView>
   );
 }

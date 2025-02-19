@@ -3,13 +3,13 @@ import * as TaskManager from 'expo-task-manager';
 import * as Notifications from 'expo-notifications';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Product } from '@/components/ProductsList';
-import { devHost } from '@/app/config/hosts';
+import { devHost, prodHost } from '@/app/config/hosts';
 import { Platform } from 'react-native';
 
 const PRICE_CHECK_TASK = 'PRICE_CHECK_TASK';
 
 const getProductInfo = async (link: string) => {
-    let url_str = `${devHost}/product/`;
+    let url_str = `${prodHost}/product/`;
 
     if (link.includes("emag.ro")) {
         url_str += "emag";
@@ -43,7 +43,7 @@ TaskManager.defineTask(PRICE_CHECK_TASK, async () => {
     const parsedProducts = JSON.parse(products);
     for (const product of parsedProducts) {
         const newData = await getProductInfo(product.url);
-        if (newData.price !== product.price) {
+        if (newData.price !== product.price || newData.price === product.price) { // change in prod
             await Notifications.scheduleNotificationAsync({
                 content: {
                     title: 'Price Changed!',

@@ -8,5 +8,10 @@ export default function UnAuthenticatedLayout() {
         return <Redirect href={"/"} />;
     }
 
-    return <Stack />;
+    return (
+        <Stack screenOptions={{ headerShown: false, title: "Log in/sign up" }}>
+            <Stack.Screen name="sign-in" />
+            <Stack.Screen name="sign-up" />
+        </Stack>
+    );
 }

@@ -1,6 +1,7 @@
 import { StyleSheet, FlatList } from 'react-native';
 import { ThemedView } from '@/components/ThemedView';
 import { ListElement } from './ListElement';
+import { ThemedText } from './ThemedText';
 
 export interface Product {
   id: string;
@@ -40,10 +41,13 @@ export function ProductsList({ products, setProducts, saveProducts }: ProductsLi
             currency={item.currency}
             title={item.title}
             imageUrl={item.imageUrl}
-            onDelete={() => {handleDelete(item.id)}}
+            onDelete={() => { handleDelete(item.id) }}
           />
         )}
         keyExtractor={(item) => item.id}
+        ListHeaderComponent={
+          <ThemedText style={styles.title}>Your Products</ThemedText>
+        }
       />
     </ThemedView>
   );
@@ -53,5 +57,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 16,
+    width: '100%',
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    marginBottom: 16
   }
 });

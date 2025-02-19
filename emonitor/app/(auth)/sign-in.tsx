@@ -48,10 +48,11 @@ export default function SignInPage() {
             <ThemedText style={styles.title}>Welcome Back</ThemedText>
 
             <TextInput
-                 style={[styles.input, {
+                style={[styles.input, {
                     color: colorScheme === 'dark' ? '#FFFFFF' : '#000000',
                     backgroundColor: colorScheme === 'dark' ? '#353636' : '#FFFFFF'
                 }]}
+                hitSlop={{ top: 32, bottom: 32, left: 32, right: 32 }}
                 autoCapitalize="none"
                 value={emailAddress}
                 placeholder="Enter email"
@@ -59,21 +60,28 @@ export default function SignInPage() {
                 onChangeText={(emailAddress) => setEmailAddress(emailAddress)}
             />
             <TextInput
-                 style={[styles.input, {
+                style={[styles.input, {
                     color: colorScheme === 'dark' ? '#FFFFFF' : '#000000',
                     backgroundColor: colorScheme === 'dark' ? '#353636' : '#FFFFFF'
                 }]}
+                hitSlop={{ top: 32, bottom: 32, left: 32, right: 32 }}
                 value={password}
                 placeholder="Enter password"
                 secureTextEntry={true}
                 placeholderTextColor={colorScheme === 'dark' ? '#808080' : '#666666'}
                 onChangeText={(password) => setPassword(password)}
             />
-            <Pressable style={styles.signInButton} onPress={onSignInPress}>
+            <Pressable
+                style={({ pressed }) => [
+                    styles.signInButton,
+                    pressed && styles.buttonPressed
+                ]}
+                android_ripple={{ color: 'rgba(255, 255, 255, 0.3)' }}
+                onPress={onSignInPress}>
                 <ThemedText style={styles.buttonText}>Sign In</ThemedText>
             </Pressable>
             <ThemedView style={styles.footer}>
-                <ThemedText>Don't have an account?</ThemedText>
+                <ThemedText style={{ width: "50%" }}>Don't have an account?</ThemedText>
                 <Link href="/sign-up" style={styles.link}>
                     <ThemedText style={styles.linkText}>Sign up</ThemedText>
                 </Link>
@@ -101,6 +109,8 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: '#ddd',
         borderRadius: 8,
+        minHeight: 48,
+        textAlignVertical: 'center'
     },
     signInButton: {
         width: '50%',
@@ -124,5 +134,9 @@ const styles = StyleSheet.create({
     linkText: {
         color: '#4CAF50',
         fontWeight: 'bold',
+    },
+    buttonPressed: {
+        opacity: 0.8,
+        transform: [{ scale: 0.98 }]
     }
 });
