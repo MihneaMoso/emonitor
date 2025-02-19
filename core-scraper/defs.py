@@ -12,9 +12,9 @@ from selectolax.parser import HTMLParser
 def emag_get_fd_data(product_str: str, product_sku: str) -> dict:
     response = requests.get(
         f"https://emag.ro/{product_str}",
-        cookies=cookies_html,
-        headers=headers_html,
-        params=params_html,
+        # cookies=cookies_html,
+        # headers=headers_html,
+        # params=params_html,
         impersonate="chrome",
     )
     tree = HTMLParser(response.text)
