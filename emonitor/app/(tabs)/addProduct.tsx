@@ -20,7 +20,7 @@ export default function addProductScreen() {
   const colorScheme = useColorScheme();
   const [link, setLink] = useState('');
   const [error, setError] = useState('');
-  // const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [submittedUrl, setSubmittedUrl] = useState('');
   const [products, setProducts] = useState<Product[]>([]);
 
@@ -49,7 +49,7 @@ export default function addProductScreen() {
   };
 
   const getProductInfo = async (link: string): Promise<Product> => {
-    let url_str = `${prodHost}/product/`;
+    let url_str = `${devHost}/product/`;
 
     if (link.includes("emag.ro")) {
       url_str += "emag";
@@ -121,9 +121,11 @@ export default function addProductScreen() {
 
   const handleSubmit = async () => {
     if (!error && link) {
+      setLoading(true);
       setSubmittedUrl(link);
       const product = await getProductInfo(link);
       addProduct(product);
+      setLoading(false);
     }
   };
 
@@ -217,6 +219,7 @@ export default function addProductScreen() {
           products={products}
           setProducts={setProducts}
           saveProducts={saveProducts}
+          loading={loading}
         />
       </ThemedView>
 

@@ -19,14 +19,16 @@ interface ProductsListProps {
   products: Product[];
   setProducts: (products: Product[]) => void;
   saveProducts: (products: Product[]) => void;
+  loading?: boolean;
 }
 
-export function ProductsList({ products, setProducts, saveProducts }: ProductsListProps) {
+export function ProductsList({ products, setProducts, saveProducts, loading }: ProductsListProps) {
   const handleDelete = (productId: string) => {
     const updatedProducts = products.filter(p => p.id !== productId);
     setProducts(updatedProducts);
     saveProducts(updatedProducts);
   };
+  
   return (
     <ThemedView style={styles.container}>
       <FlatList
@@ -42,6 +44,7 @@ export function ProductsList({ products, setProducts, saveProducts }: ProductsLi
             title={item.title}
             imageUrl={item.imageUrl}
             onDelete={() => { handleDelete(item.id) }}
+            loading={loading && item.id === products[products.length - 1].id}
           />
         )}
         keyExtractor={(item) => item.id}

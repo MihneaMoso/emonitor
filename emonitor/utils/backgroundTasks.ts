@@ -9,7 +9,7 @@ import { Platform } from 'react-native';
 const PRICE_CHECK_TASK = 'PRICE_CHECK_TASK';
 
 const getProductInfo = async (link: string) => {
-    let url_str = `${prodHost}/product/`;
+    let url_str = `${devHost}/product/`;
 
     if (link.includes("emag.ro")) {
         url_str += "emag";

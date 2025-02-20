@@ -19,10 +19,10 @@
 	{#if menuOpen === true}
 		<div class="h-full w-[50vw] absolute right-0 flex items-end justify-center flex-col pr-[100px] ">
 			<div transition:fade class="flex flex-col gap-13 bg-transparent">
-				<a href="/" class="text-4xl text-white font-bold z-50 hover:text-gray-200" >Information</a>
+				<!-- <a href="/" class="text-4xl text-white font-bold z-50 hover:text-gray-200" >Information</a>
 				<a href="/" class="text-4xl text-white font-bold z-50 hover:text-gray-200" >Log In</a>
-				<a href="/" class="text-4xl text-white font-bold z-50 hover:text-gray-200" >Sign Up</a>
-				<a href="/" class="text-4xl text-white font-bold z-50 hover:text-gray-200" >Github Repo</a>
+				<a href="/" class="text-4xl text-white font-bold z-50 hover:text-gray-200" >Sign Up</a> -->
+				<a href="https://github.com/MihneaMoso/emonitor" class="text-4xl text-white font-bold z-50 hover:text-gray-200" >Github Repo</a>
 			</div>
 		</div>
 		<div transition:fade id="menu" class="menu clip w-[100vw] h-[100vh] opacity-40 absolute left-0 bg-gray-600 z-20 " bind:this={menu}></div>

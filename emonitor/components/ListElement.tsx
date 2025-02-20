@@ -7,6 +7,7 @@ import { registerBackgroundTask } from '@/utils/backgroundTasks';
 import { Picker } from '@react-native-picker/picker';
 import { useState } from 'react';
 import { Ionicons } from '@expo/vector-icons';
+import { ActivityIndicator } from 'react-native';
 
 interface ListElementProps {
   productUrl: string;
@@ -18,15 +19,26 @@ interface ListElementProps {
   title: string;
   imageUrl: string;
   onDelete: () => void;
+  loading?: boolean;
 }
 
-export function ListElement({ productUrl, price, prp, fdp, discount, currency, imageUrl, title, onDelete }: ListElementProps) {
+export function ListElement({ productUrl, price, prp, fdp, discount, currency, imageUrl, title, onDelete, loading }: ListElementProps) {
   const [checkInterval, setCheckInterval] = useState(3600); // Default to 1 hour
 
   const handleIntervalChange = (value: number) => {
     setCheckInterval(value);
     registerBackgroundTask(value);
   };
+
+  if (loading) {
+    return (
+      <ThemedView style={styles.container}>
+        <ThemedView style={styles.loadingContainer}>
+          <ActivityIndicator size="large" color="#0a7ea4" />
+        </ThemedView>
+      </ThemedView>
+    );
+  }
 
   return (
     <ThemedView style={styles.container}>
@@ -40,11 +52,11 @@ export function ListElement({ productUrl, price, prp, fdp, discount, currency, i
           {title}</ThemedText>
         <Pressable
           onPress={() => Linking.openURL(productUrl)}>
-          <ThemedText 
-          type="link" 
-          style={styles.linkText}
-          ellipsizeMode='tail'
-          numberOfLines={1}
+          <ThemedText
+            type="link"
+            style={styles.linkText}
+            ellipsizeMode='tail'
+            numberOfLines={1}
           >{productUrl}</ThemedText>
         </Pressable>
         <ThemedText style={styles.productInfo}>Current Price: <ThemedText style={styles.price}>{price}</ThemedText></ThemedText>
@@ -122,5 +134,11 @@ const styles = StyleSheet.create({
     zIndex: 1,
     backgroundColor: 'transparent',
     padding: 8,
-  }
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 20,
+  },
 });
