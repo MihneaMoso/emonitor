@@ -1,17 +1,43 @@
 from rich import print as rprint
-from curl_cffi import requests
+from curl_cffi import requests as cureq
 from config_offers import params_offers, cookies_offers, headers_offers
 from config_search import params_search, cookies_search, headers_search
 from config_html import cookies_html, headers_html, params_html
 from config_altex import cookies_altex, headers_altex
 import html
-from typing import Union
+from requests.cookies import cookiejar_from_dict
+import requests
+from typing import Union, Dict
 from selectolax.parser import HTMLParser
 
 
+def get_coookies(url: str):
+    headers = {"Content-Type": "application/json"}
+    data = {
+        "cmd": "requests.get",
+        "url": url,
+        "maxTimeout": 60000,
+        "returnOnlyCookies": True,
+    }
+    flare_url = "http://0.0.0.0:8191/v1"
+    response = requests.post(flare_url, json=data, headers=headers)
+    return response.json()["solution"]["cookies"]
+
+
+def load_cookies(session: requests.Session, cookies_dict: Dict):
+    cookie = {}
+    for elem in cookies_dict:
+        cookie[elem["name"]] = elem["value"]
+    session.cookies = cookiejar_from_dict(cookie)
+
+
 def emag_get_fd_data(product_str: str, product_sku: str) -> dict:
-    response = requests.get(
-        f"https://emag.ro/{product_str}",
+    session = cureq.Session()
+    product_url = f"https://emag.ro/{product_str}"
+    cookies = get_coookies(product_url)
+    load_cookies(session, cookies)
+    response = session.get(
+        product_url,
         cookies=cookies_html,
         headers=headers_html,
         params=params_html,
@@ -50,7 +76,7 @@ def emag_get_fd_data(product_str: str, product_sku: str) -> dict:
 # we'll use this later when we create a search function for emonitor
 def emag_get_search_data(query: str):
     params_search["filters[query]"] = query
-    response = requests.get(
+    response = cureq.get(
         "https://sapi.emag.ro/recommendations/by-zone-by-filters",
         params=params_search,
         cookies=cookies_search,
@@ -62,13 +88,22 @@ def emag_get_search_data(query: str):
 
 # return price information
 def emag_get_offer_data(product_str: str) -> dict:
-
-    product_sku = product_str.split("/")[2]
+    product_sku = ""
+    try:
+        product_sku = product_str.split("/")[2]
+    except IndexError:
+        print("Invalid product string")
     # only do this if the product_str has the '/pd/' in it
     if "/pd/" in product_str:
         try:
-            response = requests.get(
-                f"https://sapi.emag.ro/products/{product_sku}/fastest-cheapest-offers",
+            session = cureq.Session()
+            product_url = (
+                f"https://sapi.emag.ro/products/{product_sku}/fastest-cheapest-offers"
+            )
+            cookies = get_coookies(product_url)
+            load_cookies(session, cookies)
+            response = session.get(
+                product_url,
                 cookies=cookies_offers,
                 headers=headers_offers,
                 params=params_offers,
@@ -106,11 +141,15 @@ def emag_get_offer_data(product_str: str) -> dict:
 
 
 def emag_get_title_and_image(product_str: str) -> dict[str, str]:
-    response = requests.get(
-        f"https://emag.ro/{product_str}",
-        # cookies=cookies_html,
-        # headers=headers_html,
-        # params=params_html,
+    session = cureq.Session()
+    product_url = f"https://emag.ro/{product_str}"
+    cookies = get_coookies(product_url)
+    load_cookies(session, cookies)
+    response = session.get(
+        product_url,
+        cookies=cookies_html,
+        headers=headers_html,
+        params=params_html,
         impersonate="chrome",
     )
     tree = HTMLParser(response.text)
@@ -127,7 +166,7 @@ def emag_get_title_and_image(product_str: str) -> dict[str, str]:
 def altex_get_product_data(product_str: str) -> dict:
     product_sku = product_str.split("/")[2]
     # print(product_sku)
-    response = requests.get(
+    response = cureq.get(
         f"https://fenrir.altex.ro/catalog/product/store_availability/{product_sku}/",
         # cookies=cookies_altex,
         headers=headers_altex,

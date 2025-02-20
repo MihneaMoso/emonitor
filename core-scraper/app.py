@@ -3,10 +3,10 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import Union
 from defs import (
-    emag_get_search_data,
+    # emag_get_search_data,
     emag_get_offer_data,
     altex_get_product_data,
-    emag_get_title_and_image,
+    # emag_get_title_and_image,
 )
 
 
