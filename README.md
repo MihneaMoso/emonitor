@@ -18,4 +18,4 @@
 
 ### Links:
  - Pitch: https://drive.google.com/file/d/1s4wsZc_nF2YJLirm5srSeM3GEbXEsBzb/view?usp=sharing
- - Demo: https://drive.google.com/file/d/1mOnoKCHY86s__g9bD346Kl3BAoQNFmTd/view?usp=sharing
+ - Demo: https://drive.google.com/file/d/1nMjqs5FnW7F6WrDT32CDeJZMRUp7YKuV/view?usp=sharing
