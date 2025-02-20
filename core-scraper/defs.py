@@ -18,7 +18,7 @@ def emag_get_fd_data(product_str: str, product_sku: str) -> dict:
         impersonate="chrome",
     )
     tree = HTMLParser(response.text)
-    # rprint(response.text)
+    rprint(response.text)
     title = tree.css_first("h1.page-title").text().strip()
     image = tree.css_first('img[alt="Product image"]').attrs["src"]
     big_price: Union[int, str] = html.unescape(
