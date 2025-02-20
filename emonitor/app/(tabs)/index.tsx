@@ -4,7 +4,7 @@ import { HelloWave } from '@/components/HelloWave';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
-import {Link} from  'expo-router';
+import { Link } from 'expo-router';
 
 export default function HomeScreen() {
   return (
@@ -16,19 +16,21 @@ export default function HomeScreen() {
       </ThemedView>
       <ThemedView style={styles.stepContainer}>
         <ThemedText type="subtitle">Brief Description</ThemedText>
-        <ThemedText>
+        <ThemedText style={styles.centeredText}>
           Emonitor is a price tracking app that supports Romanian sites such as <ThemedText type="defaultSemiBold" > emag.ro </ThemedText> and <ThemedText type="defaultSemiBold">altex.ro</ThemedText> .
         </ThemedText>
       </ThemedView>
       <ThemedView style={styles.stepContainer}>
         <ThemedText type="subtitle">How to use the app</ThemedText>
-        <ThemedText>
-          Tap the <ThemedText type="defaultSemiBold"><Link href="/(tabs)/addProduct"> Add Product </Link> </ThemedText> button to add a new product.
+        <ThemedText style={styles.centeredText}>
+          Tap the <ThemedText type="defaultSemiBold">
+            <Link href="/(tabs)/addProduct">Add Product</Link>
+          </ThemedText>{'\n'}button to add a new {'\n'}product.
         </ThemedText>
       </ThemedView>
       <ThemedView style={styles.stepContainer}>
         <ThemedText type="subtitle">Enter the link to your product</ThemedText>
-        <ThemedText>
+        <ThemedText style={styles.centeredText}>
           And choose when you want to be alerted when there are price changes.
         </ThemedText>
       </ThemedView>
@@ -49,5 +51,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     gap: 8,
     marginBottom: 8,
+  },
+  centeredText: {
+    textAlign: 'center',
   }
 });
