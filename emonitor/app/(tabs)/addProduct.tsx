@@ -66,7 +66,7 @@ export default function addProductScreen() {
   };
 
   const getProductInfo = async (link: string): Promise<Product> => {
-    let url_str = `${devHost}/product/`;
+    let url_str = `${prodHost}/product/`;
 
     if (link.includes("emag.ro")) {
       url_str += "emag";
@@ -180,9 +180,9 @@ export default function addProductScreen() {
     }
     // Check if the first part of the link (the domain) is in the supportedSites.ts file
     // get the domain in the link
-    const domain = new URL(processedText).hostname;;
+    const domain = new URL(processedText).hostname;
     // check if domain is in the supported_sites.txt file
-    if (!supportedSites.includes(domain) && processedText !== '') {
+    if (!supportedSites.includes(domain) && processedText !== '') { 
       setError('Check your spelling or check supported sites');
       return;
     }

@@ -12,7 +12,7 @@ from selectolax.parser import HTMLParser
 
 FLARESOLVER_URL_DEV = "http://localhost:8191/v1"
 FLARESOLVERR_URL_PROD = "https://flaresolverr-emonitor.onrender.com/v1"
-
+DEFAULT_CURRENCY = "RON"
 
 def get_coookies(url: str) -> list[Dict]:
     headers = {"Content-Type": "application/json"}
@@ -158,7 +158,7 @@ def emag_get_offer_data(product_str: str) -> dict:
 
 def emag_get_title_and_image(product_str: str) -> dict[str, str]:
     product_url = f"https://emag.ro/{product_str}"
-    
+
     response = cureq.get(
         product_url,
         cookies=cookies_html,
@@ -211,7 +211,7 @@ def altex_get_product_data(product_str: str) -> dict:
             if r["product"]["discount_type"] == "fixed"
             else None
         ),
-        "currency": None,
+        "currency": DEFAULT_CURRENCY,
         "title": r["product"]["name"],
         "imageUrl": "https://lcdn.altex.ro/" + r["product"]["small_image"],
     }
@@ -233,3 +233,4 @@ def altex_get_product_data(product_str: str) -> dict:
 #         "trotineta-electrica-xiaomi-mi-electric-scooter-pro-2-putere-motor-300-w-autonomie-max-45-km-viteza-maxima-25-km-h-negru-fbc4025gl/pd/D94003MBM/"
 #     )
 # )
+# rprint(altex_get_product_data("telefon-apple-iphone-16-pro-max-5g-512gb-natural-titanium/cpd/SMTIP16PM5NT/"))

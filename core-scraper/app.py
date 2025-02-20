@@ -16,7 +16,7 @@ class Product(BaseModel):
     prp: Union[float, None]
     fdp: Union[float, None]
     discount: Union[float, None]
-    currency: str
+    currency: Union[str, None]
     title: str
     imageUrl: str
 

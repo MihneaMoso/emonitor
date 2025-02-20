@@ -9,7 +9,7 @@ import { Platform } from 'react-native';
 const PRICE_CHECK_TASK = 'PRICE_CHECK_TASK';
 
 const getProductInfo = async (link: string) => {
-    let url_str = `${devHost}/product/`;
+    let url_str = `${prodHost}/product/`;
 
     if (link.includes("emag.ro")) {
         url_str += "emag";
@@ -43,7 +43,7 @@ TaskManager.defineTask(PRICE_CHECK_TASK, async () => {
     const parsedProducts = JSON.parse(products);
     for (const product of parsedProducts) {
         const newData = await getProductInfo(product.url);
-        if (newData.price !== product.price || newData.price === product.price) { // change in prod
+        if (newData.price !== product.price) {
             await Notifications.scheduleNotificationAsync({
                 content: {
                     title: 'Price Changed!',
