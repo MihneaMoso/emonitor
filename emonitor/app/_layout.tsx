@@ -10,6 +10,7 @@ import { ClerkProvider, ClerkLoaded } from '@clerk/clerk-expo'
 import { Slot } from 'expo-router'
 import { tokenCache } from '@/cache'
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import * as Notifications from 'expo-notifications';
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -30,6 +31,17 @@ export default function RootLayout() {
     if (loaded) {
       SplashScreen.hideAsync();
     }
+    // const sendTestNotification = async () => {
+    //   await Notifications.scheduleNotificationAsync({
+    //     content: {
+    //       title: "Welcome to eMonitor! 🚀",
+    //       body: "Notifications are working correctly.",
+    //     },
+    //     trigger: null, // Shows immediately
+    //   });
+    // };
+
+    // sendTestNotification();
   }, [loaded]);
 
   if (!loaded) {

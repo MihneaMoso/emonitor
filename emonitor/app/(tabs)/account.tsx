@@ -40,8 +40,8 @@ export default function AccountScreen() {
                             source={{ uri: user.imageUrl }}
                             style={styles.profileImage}
                         />
-                        <ThemedText style={styles.name}>{user.fullName}</ThemedText>
-                        <ThemedText>{user.primaryEmailAddress?.emailAddress}</ThemedText>
+                        <ThemedText style={styles.signInText}>{user.fullName}</ThemedText>
+                        <ThemedText style={styles.signInText}>{user.primaryEmailAddress?.emailAddress}</ThemedText>
                         <Pressable
                             onPress={() => signOut()}
                             style={styles.signOutButton}

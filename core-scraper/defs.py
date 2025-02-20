@@ -13,6 +13,7 @@ from selectolax.parser import HTMLParser
 FLARESOLVER_URL_DEV = "http://localhost:8191/v1"
 FLARESOLVERR_URL_PROD = "https://flaresolverr-emonitor.onrender.com/v1"
 
+
 def get_coookies(url: str) -> list[Dict]:
     headers = {"Content-Type": "application/json"}
     data = {
@@ -23,8 +24,8 @@ def get_coookies(url: str) -> list[Dict]:
     }
     flare_url = FLARESOLVERR_URL_PROD
     response = requests.post(flare_url, json=data, headers=headers)
-    rprint(response.json()['solution'])
-    return response.json()['solution']['cookies']
+    rprint(response.json()["solution"])
+    return response.json()["solution"]["cookies"]
 
 
 def load_cookies(session: requests.Session, cookies_list: list[Dict]):
@@ -35,18 +36,28 @@ def load_cookies(session: requests.Session, cookies_list: list[Dict]):
 
 
 def emag_get_fd_data(product_str: str, product_sku: str) -> dict:
-    session = requests.Session()
     product_url = f"https://emag.ro/{product_str}"
-    cookies = get_coookies(product_url)
-    load_cookies(session, cookies)
-    response = session.get(
+
+    response = cureq.get(
         product_url,
-        # cookies=cookies_html,
+        cookies=cookies_html,
         headers=headers_html,
         params=params_html,
-        # impersonate="chrome",
+        impersonate="chrome",
     )
-    session.close()
+    tree: Union[HTMLParser, None] = None
+    try:
+        tree = HTMLParser(response.text)
+    except Exception:
+        session = requests.Session()
+        cookies = get_coookies(product_url)
+        load_cookies(session, cookies)
+        response = session.get(
+            product_url,
+            headers=headers_html,
+            params=params_html,
+        )
+        session.close()
     tree = HTMLParser(response.text)
     rprint(response.text)
     title = tree.css_first("h1.page-title").text().strip()
@@ -146,18 +157,29 @@ def emag_get_offer_data(product_str: str) -> dict:
 
 
 def emag_get_title_and_image(product_str: str) -> dict[str, str]:
-    session = requests.Session()
     product_url = f"https://emag.ro/{product_str}"
-    cookies = get_coookies(product_url)
-    load_cookies(session, cookies)
-    response = session.get(
+    
+    response = cureq.get(
         product_url,
-        # cookies=cookies_html,
+        cookies=cookies_html,
         headers=headers_html,
         params=params_html,
-        # impersonate="chrome",
+        impersonate="chrome",
     )
-    tree = HTMLParser(response.text)
+    tree: Union[HTMLParser, None] = None
+    try:
+        tree = HTMLParser(response.text)
+    except Exception:
+        session = requests.Session()
+        cookies = get_coookies(product_url)
+        load_cookies(session, cookies)
+        response = session.get(
+            product_url,
+            headers=headers_html,
+            params=params_html,
+        
+        )
+        session.close()
     title: str = tree.css_first("h1.page-title").text().strip()
     # rprint(title)
     image: str = tree.css_first(

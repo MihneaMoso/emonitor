@@ -8,6 +8,7 @@ import { Picker } from '@react-native-picker/picker';
 import { useState } from 'react';
 import { Ionicons } from '@expo/vector-icons';
 import { ActivityIndicator } from 'react-native';
+import { useColorScheme } from '@/hooks/useColorScheme';
 
 interface ListElementProps {
   productUrl: string;
@@ -24,6 +25,7 @@ interface ListElementProps {
 
 export function ListElement({ productUrl, price, prp, fdp, discount, currency, imageUrl, title, onDelete, loading }: ListElementProps) {
   const [checkInterval, setCheckInterval] = useState(3600); // Default to 1 hour
+  const colorScheme = useColorScheme();
 
   const handleIntervalChange = (value: number) => {
     setCheckInterval(value);
@@ -67,9 +69,13 @@ export function ListElement({ productUrl, price, prp, fdp, discount, currency, i
         <Picker
           selectedValue={checkInterval}
           onValueChange={handleIntervalChange}
-          style={styles.picker}
+          style={[styles.picker, {
+            color: colorScheme === 'dark' ? '#FFFFFF' : '#000000',
+          }]}
+          dropdownIconColor={colorScheme === 'dark' ? '#FFFFFF' : '#000000'}
         >
           <Picker.Item label="1 minute" value={60} />
+          <Picker.Item label="5 minutes" value={300} />
           <Picker.Item label="1 hour" value={3600} />
           <Picker.Item label="2 hours" value={7200} />
           <Picker.Item label="4 hours" value={14400} />
@@ -123,6 +129,8 @@ const styles = StyleSheet.create({
     marginVertical: 4,
   },
   picker: {
+    width: '100%',
+    height: 50,
     fontWeight: 'bold',
     fontSize: 16,
     marginVertical: 4,

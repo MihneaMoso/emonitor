@@ -4,7 +4,7 @@ import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { useEffect, useState } from 'react';
 import { TextInput } from 'react-native-gesture-handler';
-import { useColorScheme, ActivityIndicator } from 'react-native';
+import { useColorScheme, ActivityIndicator, Alert } from 'react-native';
 import { Pressable } from 'react-native';
 import { ProductsList } from '@/components/ProductsList';
 import { Product } from "@/components/ProductsList";
@@ -14,7 +14,8 @@ import { devHost, prodHost } from '../config/hosts';
 import Storage from 'react-native-storage';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { registerBackgroundTask } from '@/utils/backgroundTasks';
-
+import { Ionicons } from '@expo/vector-icons';
+import * as Notifications from 'expo-notifications';
 
 export default function addProductScreen() {
   const colorScheme = useColorScheme();
@@ -44,8 +45,24 @@ export default function addProductScreen() {
   };
 
   const clearAllProducts = async () => {
-    await AsyncStorage.removeItem('savedProducts');
-    setProducts([]);
+    Alert.alert(
+      "Clear All Products",
+      "Are you sure you want to delete all products? This action cannot be undone.",
+      [
+        {
+          text: "Cancel",
+          style: "cancel"
+        },
+        {
+          text: "Delete All",
+          onPress: async () => {
+            await AsyncStorage.removeItem('savedProducts');
+            setProducts([]);
+          },
+          style: "destructive"
+        }
+      ]
+    );
   };
 
   const getProductInfo = async (link: string): Promise<Product> => {
@@ -116,6 +133,17 @@ export default function addProductScreen() {
   }
 
   useEffect(() => {
+    // const sendTestNotification = async () => {
+    //   await Notifications.scheduleNotificationAsync({
+    //     content: {
+    //       title: "Welcome to eMonitor! 🚀",
+    //       body: "Notifications are working correctly.",
+    //     },
+    //     trigger: null, // Shows immediately
+    //   });
+    // };
+
+    // sendTestNotification();
     loadSavedProducts();
   }, []);
 
@@ -174,20 +202,33 @@ export default function addProductScreen() {
         <ThemedText type="title">Add Product</ThemedText>
       </ThemedText>
       <ThemedView style={styles.formContainer}>
-        <TextInput
-          style={[styles.input,
-          {
-            color: colorScheme === 'dark' ? '#FFFFFF' : '#000000',
-            backgroundColor: colorScheme === 'dark' ? '#353636' : '#FFFFFF'
-          }
-          ]}
-          placeholder="Enter product link"
-          placeholderTextColor={colorScheme === 'dark' ? '#808080' : '#666666'}
-          value={link}
-          onChangeText={validateLink}
-          autoCapitalize="none"
-          autoCorrect={false}
-        />
+        <ThemedView style={styles.inputContainer}>
+          <TextInput
+            style={[styles.input,
+            {
+              color: colorScheme === 'dark' ? '#FFFFFF' : '#000000',
+              backgroundColor: colorScheme === 'dark' ? '#353636' : '#FFFFFF'
+            }
+            ]}
+            placeholder="Enter product link"
+            placeholderTextColor={colorScheme === 'dark' ? '#808080' : '#666666'}
+            value={link}
+            onChangeText={validateLink}
+            autoCapitalize="none"
+            autoCorrect={false}
+          />
+          {link ? (
+            <Pressable
+              style={styles.clearInputButton}
+              onPress={() => {
+                setLink('');
+                setError('');
+              }}
+            >
+              <Ionicons name="close-circle" size={20} color={colorScheme === 'dark' ? '#808080' : '#666666'} />
+            </Pressable>
+          ) : null}
+        </ThemedView>
         {error ? (
           <ThemedText style={styles.errorText}>{error}</ThemedText>
         ) : null}
@@ -293,5 +334,16 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     width: '90%',
     alignSelf: 'center'
-  }
+  },
+  inputContainer: {
+    position: 'relative',
+    width: '100%',
+  },
+  clearInputButton: {
+    position: 'absolute',
+    right: 12,
+    top: '50%',
+    transform: [{ translateY: -10 }],
+    zIndex: 1,
+  },
 });
