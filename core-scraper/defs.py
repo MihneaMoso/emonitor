@@ -75,6 +75,7 @@ def emag_get_offer_data(product_str: str) -> dict:
                 impersonate="chrome",
             )
             r = response.json()
+            rprint(r)
             # id will be the code situated between the second and third forwardslash in the product str (sku)
             current_cheapest_price = r["data"]["cheapest"]["price"]["current"]
             recommeded_cheapest_sales_price = r["data"]["cheapest"]["price"][
