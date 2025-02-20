@@ -12,13 +12,13 @@ from selectolax.parser import HTMLParser
 def emag_get_fd_data(product_str: str, product_sku: str) -> dict:
     response = requests.get(
         f"https://emag.ro/{product_str}",
-        # cookies=cookies_html,
-        # headers=headers_html,
-        # params=params_html,
+        cookies=cookies_html,
+        headers=headers_html,
+        params=params_html,
         impersonate="chrome",
     )
     tree = HTMLParser(response.text)
-    rprint(response.text)
+    # rprint(response.text)
     title = tree.css_first("h1.page-title").text().strip()
     image = tree.css_first('img[alt="Product image"]').attrs["src"]
     big_price: Union[int, str] = html.unescape(
