@@ -10,39 +10,43 @@ import requests
 from typing import Union, Dict
 from selectolax.parser import HTMLParser
 
+FLARESOLVER_URL_DEV = "http://localhost:8191/v1"
+FLARESOLVERR_URL_PROD = "https://flaresolverr-emonitor.onrender.com/v1"
 
-def get_coookies(url: str):
+def get_coookies(url: str) -> list[Dict]:
     headers = {"Content-Type": "application/json"}
     data = {
-        "cmd": "requests.get",
+        "cmd": "request.get",
         "url": url,
         "maxTimeout": 60000,
         "returnOnlyCookies": True,
     }
-    flare_url = "http://0.0.0.0:8191/v1"
+    flare_url = FLARESOLVERR_URL_PROD
     response = requests.post(flare_url, json=data, headers=headers)
-    return response.json()["solution"]["cookies"]
+    rprint(response.json()['solution'])
+    return response.json()['solution']['cookies']
 
 
-def load_cookies(session: requests.Session, cookies_dict: Dict):
+def load_cookies(session: requests.Session, cookies_list: list[Dict]):
     cookie = {}
-    for elem in cookies_dict:
+    for elem in cookies_list:
         cookie[elem["name"]] = elem["value"]
     session.cookies = cookiejar_from_dict(cookie)
 
 
 def emag_get_fd_data(product_str: str, product_sku: str) -> dict:
-    session = cureq.Session()
+    session = requests.Session()
     product_url = f"https://emag.ro/{product_str}"
     cookies = get_coookies(product_url)
     load_cookies(session, cookies)
     response = session.get(
         product_url,
-        cookies=cookies_html,
+        # cookies=cookies_html,
         headers=headers_html,
         params=params_html,
-        impersonate="chrome",
+        # impersonate="chrome",
     )
+    session.close()
     tree = HTMLParser(response.text)
     rprint(response.text)
     title = tree.css_first("h1.page-title").text().strip()
@@ -96,13 +100,13 @@ def emag_get_offer_data(product_str: str) -> dict:
     # only do this if the product_str has the '/pd/' in it
     if "/pd/" in product_str:
         try:
-            session = cureq.Session()
+            # session = requests.Session()
             product_url = (
                 f"https://sapi.emag.ro/products/{product_sku}/fastest-cheapest-offers"
             )
-            cookies = get_coookies(product_url)
-            load_cookies(session, cookies)
-            response = session.get(
+            # cookies = get_coookies(product_url)
+            # load_cookies(session, cookies)
+            response = cureq.get(
                 product_url,
                 cookies=cookies_offers,
                 headers=headers_offers,
@@ -110,6 +114,7 @@ def emag_get_offer_data(product_str: str) -> dict:
                 impersonate="chrome",
             )
             r = response.json()
+            # session.close()
             rprint(r)
             # id will be the code situated between the second and third forwardslash in the product str (sku)
             current_cheapest_price = r["data"]["cheapest"]["price"]["current"]
@@ -141,16 +146,16 @@ def emag_get_offer_data(product_str: str) -> dict:
 
 
 def emag_get_title_and_image(product_str: str) -> dict[str, str]:
-    session = cureq.Session()
+    session = requests.Session()
     product_url = f"https://emag.ro/{product_str}"
     cookies = get_coookies(product_url)
     load_cookies(session, cookies)
     response = session.get(
         product_url,
-        cookies=cookies_html,
+        # cookies=cookies_html,
         headers=headers_html,
         params=params_html,
-        impersonate="chrome",
+        # impersonate="chrome",
     )
     tree = HTMLParser(response.text)
     title: str = tree.css_first("h1.page-title").text().strip()
