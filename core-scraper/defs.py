@@ -45,19 +45,7 @@ def emag_get_fd_data(product_str: str, product_sku: str) -> dict:
         params=params_html,
         impersonate="chrome",
     )
-    tree: Union[HTMLParser, None] = None
-    try:
-        tree = HTMLParser(response.text)
-    except Exception:
-        session = requests.Session()
-        cookies = get_coookies(product_url)
-        load_cookies(session, cookies)
-        response = session.get(
-            product_url,
-            headers=headers_html,
-            params=params_html,
-        )
-        session.close()
+
     tree = HTMLParser(response.text)
     rprint(response.text)
     title = tree.css_first("h1.page-title").text().strip()
@@ -126,7 +114,7 @@ def emag_get_offer_data(product_str: str) -> dict:
             )
             r = response.json()
             # session.close()
-            rprint(r)
+            # rprint(r)
             # id will be the code situated between the second and third forwardslash in the product str (sku)
             current_cheapest_price = r["data"]["cheapest"]["price"]["current"]
             recommeded_cheapest_sales_price = r["data"]["cheapest"]["price"][
@@ -166,20 +154,8 @@ def emag_get_title_and_image(product_str: str) -> dict[str, str]:
         params=params_html,
         impersonate="chrome",
     )
-    tree: Union[HTMLParser, None] = None
-    try:
-        tree = HTMLParser(response.text)
-    except Exception:
-        session = requests.Session()
-        cookies = get_coookies(product_url)
-        load_cookies(session, cookies)
-        response = session.get(
-            product_url,
-            headers=headers_html,
-            params=params_html,
-        
-        )
-        session.close()
+
+    tree = HTMLParser(response.text)
     title: str = tree.css_first("h1.page-title").text().strip()
     # rprint(title)
     image: str = tree.css_first(

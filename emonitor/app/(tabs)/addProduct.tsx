@@ -84,6 +84,7 @@ export default function addProductScreen() {
       headers: {
         'Content-Type': 'application/json',
         'Access-Control-Allow-Origin': '*',
+        'ngrok-skip-browser-warning': 'true',
       }
     });
     if (!response.ok) {

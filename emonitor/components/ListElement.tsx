@@ -74,7 +74,7 @@ export function ListElement({ productUrl, price, prp, fdp, discount, currency, i
           }]}
           dropdownIconColor={colorScheme === 'dark' ? '#FFFFFF' : '#000000'}
         >
-          <Picker.Item label="1 minute" value={60} />
+          {/* <Picker.Item label="1 minute" value={60} /> */}
           <Picker.Item label="5 minutes" value={300} />
           <Picker.Item label="1 hour" value={3600} />
           <Picker.Item label="2 hours" value={7200} />
